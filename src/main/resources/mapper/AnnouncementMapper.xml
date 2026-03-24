@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.dao.AnnouncementDao">
+
+    <!-- 分页查询文章及评论，过滤 status 为 1，支持根据 title 模糊查询 -->
+    <select id="findAllAnnouncementsWithComments" resultMap="announcementResultMap">
+        SELECT a.id AS announcement_id, a.title AS announcement_title, a.content AS announcement_content, a.img AS announcement_img,
+        a.bank AS announcement_bank, a.status AS announcement_status, a.create_time AS announcement_create_time,
+        a.update_time AS announcement_update_time,
+        c.id AS content_id, c.user_id AS content_user_id, c.content AS content_content,
+        c.create_time AS content_create_time
+        FROM announcement a
+        LEFT JOIN content c ON a.id = c.announcement_id
+        <where>
+            <!-- 根据 title 进行模糊查询 -->
+            <if test="title != null and title != ''">
+                AND a.title LIKE CONCAT('%', #{title}, '%')
+            </if>
+            <!-- 过滤 status 为 1 -->
+            AND a.status = 1
+        </where>
+        ORDER BY a.create_time DESC
+    </select>
+
+    <!--  分页查询所有文章信息  -->
+    <select id="findAllAnnouncementsWithComment" resultMap="announcementResultMap">
+        SELECT a.id AS announcement_id, a.title AS announcement_title, a.content AS announcement_content, a.img AS announcement_img,
+        a.bank AS announcement_bank, a.status AS announcement_status, a.create_time AS announcement_create_time,
+        a.update_time AS announcement_update_time,
+        c.id AS content_id, c.user_id AS content_user_id, c.content AS content_content,
+        c.create_time AS content_create_time
+        FROM announcement a
+        LEFT JOIN content c ON a.id = c.announcement_id
+        <where>
+            <!-- 根据 title 进行模糊查询 -->
+            <if test="title != null and title != ''">
+                AND a.title LIKE CONCAT('%', #{title}, '%')
+            </if>
+        </where>
+        ORDER BY a.create_time DESC
+    </select>
+
+    <!-- 文章结果映射 -->
+
+    <!-- 文章及评论结果映射 -->
+    <resultMap id="announcementResultMap" type="com.example.backend.pojo.Announcement">
+        <id column="announcement_id" property="id" />
+        <result column="announcement_title" property="title" />
+        <result column="announcement_content" property="content" />
+        <result column="announcement_img" property="img" />
+        <result column="announcement_bank" property="bank" />
+        <result column="announcement_status" property="status" />
+        <result column="announcement_create_time" property="createTime" />
+        <result column="announcement_update_time" property="updateTime" />
+        <collection property="list" ofType="com.example.backend.pojo.Content">
+            <id column="content_id" property="id" />
+            <result column="content_user_id" property="userId" />
+            <result column="announcement_id" property="announcementId" />
+            <result column="content_content" property="content" />
+            <result column="content_create_time" property="createTime" />
+        </collection>
+    </resultMap>
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.dao.UserDao">
+
+    <update id="updateStatus">
+        update user
+        set status = #{status}
+        where id = #{id}
+    </update>
+    <update id="updateByIdCard">
+        update user
+        set password = #{password}
+        where id_card = #{idCard} and email = #{email}
+    </update>
+    <update id="updatePassword">
+        update user
+        set password = #{encryptedNewPassword}
+        where id = #{userId}
+    </update>
+    <update id="updateByIds">
+        update user
+        set
+        <if test="realName != null and realName != ''">
+            real_name=#{realName},
+        </if>
+        <if test="bankName != null and bankName != ''">
+            bank_name=#{bankName},
+        </if>
+        <if test="avatar != null and avatar != ''">
+            avatar = #{avatar},
+        </if>
+        <if test="major != null and major != ''">
+            major=#{major},
+        </if>
+        <if test="school != null and school != ''">
+            school=#{school},
+        </if>
+        <if test="email != null and email != ''">
+            email=#{email},
+        </if>
+        <if test="phoneNumber != null and phoneNumber != ''">
+            phone_number=#{phoneNumber},
+        </if>
+        <if test="idCard != null and idCard != ''">
+            id_card=#{idCard},
+        </if>
+            updated_at=#{updatedAt}
+        where id = #{id}
+    </update>
+
+
+</mapper>

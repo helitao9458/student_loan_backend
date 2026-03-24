@@ -1,0 +1,26 @@
+# 应用服务 WEB 访问端口
+server:
+  port: 8080
+spring:
+  application:
+    name: student-loan-management-system
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bank_db?user=root&password=&useUnicode=true&characterEncoding=gbk&autoReconnect=true&failOverReadOnly=false
+    password: root123456
+    username: root
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 8        # 最大活跃连接数
+        max-idle: 8          # 最大空闲连接数
+        min-idle: 2          # 最小空闲连接数
+        max-wait: -1ms       # 连接等待超时（-1表示无限制）
+      shutdown-timeout: 100ms
+    # 关键：配置连接超时（必须小于Redis的timeout）
+    timeout: 250000ms        # 4分10秒（小于Redis默认的5分钟）
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
