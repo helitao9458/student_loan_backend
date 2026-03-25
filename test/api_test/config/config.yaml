@@ -1,0 +1,18 @@
+# 环境配置
+env:
+  test:
+    base_url: "http://localhost:8080/"
+# 账号配置
+account:
+  admin:
+    username: "hlt"
+    password: "00000000"
+  student:
+    username: "hlt1"
+    password: "1234"
+  bank:
+    username: "bank"
+    password: "1234"
+# 文件路径配置
+file_path:
+  test_images: "data/test_images/"

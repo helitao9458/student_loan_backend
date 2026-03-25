@@ -1,0 +1,73 @@
+# data/test_data.yaml
+# 用户/角色模块测试数据
+user_role:
+  login:  # 登录接口
+    admin_normal:  # 管理员正常登录
+      json: {"userName": "hlt", "password": "00000000"}
+      expected: {"code": 200, "has_token": True}
+    student_normal:  # 学生正常登录
+      json: {"userName": "hlt1", "password": "1234"}
+      expected: {"code": 200, "has_token": True}
+    password_error:  # 密码错误异常登录
+      json: {"userName": "hlt", "password": "123456"}
+      expected: {"code": 200, "has_token": False}
+  add_role:  # 添加角色接口
+    normal_1:  # 正常添加超级角色
+      params: {"roleName": "9", "roleDescription": "SUPER"}
+      expected: {"code": 200}
+    normal_2:  # 正常添加测试角色
+      params: {"roleName": "test_role_001", "roleDescription": "测试角色"}
+      expected: {"code": 200}
+    empty_name:  # 角色名空异常
+      params: {"roleName": "", "roleDescription": "空名称角色"}
+      expected: {"code": 200}
+
+# 学生贷款模块测试数据
+student_loan:
+  get_my_info:  # 获取个人信息
+    normal:
+      params: {}
+      expected: {"code": 200, "has_data": True}
+  add_loan:  # 申请贷款
+    normal:  # 正常申请
+      params:
+        loanAmount: "12000"
+        bankCard: "6222000011112222"
+        content: "学费贷款"
+        type: "0"
+        isConfirmed: "true"
+      files:  # 文件上传参数（单独拆分）
+        images: ["806a2a38-20c8-451c-9864-344a7b74b90a"]
+      expected: {"code": 200}
+    amount_empty:  # 贷款金额为空
+      data:
+        loanAmount: ""
+        bankCard: "6222000011112222"
+        content: "学费贷款"
+        type: "0"
+        isConfirmed: "true"
+      files:  # 文件上传参数（单独拆分）
+        images: ["806a2a38-20c8-451c-9864-344a7b74b90a"]
+      expected: {"code": 400}
+      no_file:  # 无文件上传（异常用例）
+      params:
+        loanAmount: "8000"
+        bankCard: "6222000011112222"
+        content: "生活费贷款"
+        type: "1"
+        isConfirmed: "true"
+      files: {}  # 无文件时为空字典
+      expected: {"code": 400}
+
+# 银行审核模块测试数据
+bank_loan:
+  update_loan_status:  # 修改贷款状态
+    pass_loan:  # 审核通过
+      params: {"id": "6", "status": "1", "reviewComments": "材料齐全，审核通过"}
+      expected: {"code": 200}
+    reject_loan:  # 审核拒绝
+      params: {"id": "7", "status": "2", "reviewComments": "材料不全，审核拒绝"}
+      expected: {"code": 200}
+    invalid_id:  # 贷款ID无效
+      params: {"id": "999", "status": "1", "reviewComments": "材料齐全"}
+      expected: {"code": 404}

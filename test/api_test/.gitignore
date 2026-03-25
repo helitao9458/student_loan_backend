@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.env
+.venv/
+# 日志
+logs/*.log
+# 报告
+report/html/*
+# IDE
+.idea/
+.vscode/
+*.swp
