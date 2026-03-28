@@ -25,3 +25,4 @@ spring:
     timeout: 250000ms        # 4分10秒（小于Redis默认的5分钟）
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
+  
