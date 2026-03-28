@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.backend.dao.TalkMsgDao">
+
+    <insert id="addTalkMsg" parameterType="com.example.backend.pojo.TalkMsg">
+        INSERT INTO talk_msg(sender_username, receiver_username, content, timestamp) VALUES
+        (#{senderUsername},#{receiverUsername},#{content},#{timestamp})
+    </insert>
+    <select id="findMyMsg" resultType="com.example.backend.pojo.TalkMsg">
+        SELECT *
+        FROM talk_msg
+        WHERE (receiver_username = #{getMan} AND sender_username = #{sendMan})
+           OR (receiver_username = #{sendMan} AND sender_username = #{getMan})
+    </select>
+    <select id="findMyNoRead" resultType="integer">
+        SELECT COUNT(*)
+        FROM talk_msg
+        WHERE (receiver_username = #{getMan} AND sender_username = #{sendMan} AND is_read = 0)
+    </select>
+    <update id="readMsg">
+        update talk_msg set is_read = 1 where sender_username=#{sendMan} and receiver_username=#{getMan}
+    </update>
+
+</mapper>

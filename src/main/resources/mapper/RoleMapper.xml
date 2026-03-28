@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.dao.RoleDao">
+
+    <select id="selectByRoleName" resultType="java.lang.Long">
+        select id from role where role_name = #{roleName}
+    </select>
+    <select id="findRoleByUserId" resultType="java.lang.String">
+        select role_name from role,user_role where user_id=#{id} and role_id = role.id
+    </select>
+    <select id="selectRoleById" resultType="java.lang.String">
+        select role_name from role,user_role where user_role.role_id = role.id and user_id = #{id}
+    </select>
+
+
+</mapper>

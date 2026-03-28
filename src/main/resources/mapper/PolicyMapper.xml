@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.dao.PolicyDao">
+
+    <insert id="insertPolicy">
+        insert into policy (id, title, content, img, state, type, created_by, create_time, update_time)
+        values (#{id},#{title},#{content},#{img},#{state},#{type},#{createdBy},#{createTime},#{updateTime})
+    </insert>
+    <update id="updateStateById">
+        UPDATE policy
+        SET state = #{state}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM policy WHERE id = #{id}
+    </delete>
+
+
+</mapper>
